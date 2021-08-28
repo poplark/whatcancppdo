@@ -52,16 +52,19 @@ jobs:
         sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
         sudo update-alternatives --config conan
 
-    - name: Configure CMake
+    # - name: Configure CMake
+    #   run: |
+    #     cmake -S . -B ./build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+    - name: Conan install libs
       run: |
-        cmake -S . -B ./build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        conan install .
 
     - name: Build
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build ./build --config $BUILD_TYPE
 
-    - name: Test
-      working-directory: ./build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C $BUILD_TYPE
+    # - name: Test
+    #   working-directory: ./build
+    #   # Execute tests defined by the CMake configuration.
+    #   # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+    #   run: ctest -C $BUILD_TYPE
